@@ -1,0 +1,12 @@
+[
+    {
+        "id": "1",
+        "aula": "test1",
+        "capasidad": "12"
+    },
+    {
+        "id": "2",
+        "aula": "test1",
+        "capasidad": "12"
+    }
+]

@@ -1,19 +1,18 @@
 var { Router } = require("express");
 var router = Router();
+var bodyParser = require("body-parser");
 var cursos = require('../curso.json');
 var _ = require('underscore');
-var mongoose = require("mongoose");
+var mongoose = require('../config/conection');
 var Classroom = require("../models/classroom").Classroom;
 
 //metodo get
-router.get('/:classromId', (req, res) =>{
-    var id = req.params.classroomId;
-    var arrayClassroom=[];
-    var classroom= Classroom.find();
-    test.each(Classroom, (classroom, i) => {
-        arrayClassroom.push(classroom);
+router.get('/', (req, res, next) =>{
+    Classroom.find().then(function(data){
+        res.json(data);
+        res.send('ok');
     });
-    res.json(arrayClassroom);
+
 });
 
 //metodo post
@@ -32,32 +31,21 @@ router.post('/', (req, res) =>{
 
 
     //put
-    router.put("/:id", (req, res) => {
-        var { id } = req.params;
-        var {aula, capacidad} = req.body;
-        if(aula && capacidad) {
-            _.each(cursos, (curso, i) => {
-                if(curso.id == id){
-                    curso.aula = aula;
-                    curso.capacidad = capacidad;
-                }
-            });
-            res.json(cursos);
-        }else{
-            res.status(500).json({erro: 'data not fount'})
-        }
+    router.put("/", (req, res) => {
+        Classroom.findByIdAndUpdate(req.body._id, { $set: req.body}, { new:true });
+        console.log("ok");
     });
 
 //delete
-    router.delete("/:id", (req, res) =>{
-        var { id } = req.params;
-        _.each(cursos, (curso, i) => {
-            if(curso.id == id){
-                cursos.splice(i, 1);
+    router.delete("/:_id", (req, res) =>{
+        var _id  = req.params._id;
+        _.each(classrooms, (classroom, i) => {
+            if(classroom.id == id){
+                classrooms.splice(i, 1);
             }
             
         });
-        res.json(cursos);
+        res.json(classroom);
     });
 
 

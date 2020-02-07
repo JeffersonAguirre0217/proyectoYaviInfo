@@ -18,7 +18,8 @@ app.use(express.json());
 
 
 //Routes
-app.use('/test', require('./routes/index'));
+app.use('/api/classrooms', require('./routes/index'));
+app.use('/api/users', require('./routes/user'));
 
 //start server
 app.listen(app.get('port'),()=>{

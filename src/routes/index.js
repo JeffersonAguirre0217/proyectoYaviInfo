@@ -1,7 +1,6 @@
 var { Router } = require("express");
 var router = Router();
 var bodyParser = require("body-parser");
-var cursos = require('../curso.json');
 var _ = require('underscore');
 var mongoose = require('../config/conection');
 var Classroom = require("../models/classroom").Classroom;
@@ -32,20 +31,23 @@ router.post('/', (req, res) =>{
 
     //put
     router.put("/", (req, res) => {
-        Classroom.findByIdAndUpdate(req.body._id, { $set: req.body}, { new:true });
-        console.log("ok");
+        Classroom.findByIdAndUpdate(req.body._id, { $set: req.body}, { new:true }, (err, model) => {
+            if(err) throw err;
+        });
+        res.send("ok");
     });
 
 //delete
-    router.delete("/:_id", (req, res) =>{
+    router.delete("/", (req, res) =>{
         var _id  = req.params._id;
-        _.each(classrooms, (classroom, i) => {
+        /*_.each(classrooms, (classroom, i) => {
             if(classroom.id == id){
                 classrooms.splice(i, 1);
             }
             
-        });
-        res.json(classroom);
+        });*/
+        Classroom.delete(req.body._id);
+        res.send("classroom delete");
     });
 
 
